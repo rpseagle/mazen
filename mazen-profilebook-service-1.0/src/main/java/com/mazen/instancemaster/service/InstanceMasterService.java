@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mazen.common.model.Host;
+import com.mazen.instancemaster.repository.InstanceMasterRepository;
 import com.mazen.instancemaster.service.impl.InstanceMasterConnectionFactory;
 import com.mazen.profilebook.model.instancemaster.AbstractInstanceMaster;
 
@@ -18,6 +19,9 @@ public class InstanceMasterService {
 	
 	@Autowired
 	InstanceMasterConnectionFactory connection;
+	
+	@Autowired
+	InstanceMasterRepository instanceMasterRepository;
 	
 	public boolean testConnection(AbstractInstanceMaster instanceMaster) throws Exception {
 		
@@ -33,5 +37,21 @@ public class InstanceMasterService {
 		return connectionService.testConnection(instanceMaster.getConnectivity(), instanceMaster.getSupportType().getValue());
 	}
 	
+	public AbstractInstanceMaster saveInstanceMaster(AbstractInstanceMaster instanceMaster) throws Exception {
+		
+		LOGGER.info("Enter @saveInstanceMaster");
+		
+		AbstractInstanceMaster exisAbstractInstanceMaster = findById(instanceMaster.getInstanceName());
+		
+		return instanceMasterRepository.save(instanceMaster);
+		
+		}
 
+ 	public AbstractInstanceMaster findById(String instanceName) {
+ 		
+ 		LOGGER.info("Enter into @findById Instance  by name "+ instanceName);
+ 		AbstractInstanceMaster instance = instanceMasterRepository.findById(instanceName).orElse(null);
+ 		LOGGER.info("Enter to get Instance" + instance);
+ 		return instance;
+ 	}
 }

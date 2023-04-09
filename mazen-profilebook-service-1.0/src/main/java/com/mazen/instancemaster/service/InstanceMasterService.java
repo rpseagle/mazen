@@ -1,5 +1,7 @@
 package com.mazen.instancemaster.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,4 +56,17 @@ public class InstanceMasterService {
  		LOGGER.info("Enter to get Instance" + instance);
  		return instance;
  	}
+ 	
+ 	public List<AbstractInstanceMaster> findAllInstance() throws Exception {
+ 		List<AbstractInstanceMaster> allInstances = instanceMasterRepository.findAll();
+ 		return allInstances;
+ 	}
+ 	
+ 	public void deleteInstance(String instanceName) {
+ 		
+ 		LOGGER.info("Enter into @deleteInstance Instance  by name "+ instanceName);
+ 		instanceMasterRepository.deleteById(instanceName);
+ 		LOGGER.info("Enter to deleted Instance" + instanceName);
+ 	}
+ 	
 }
